@@ -36,7 +36,43 @@
         line-height: 1.6;
       }
     </style>
-    <script src="popup.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var sendUrlButton = document.getElementById("sendUrlButton");
+
+        sendUrlButton.addEventListener("click", function () {
+          chrome.tabs.query(
+            { active: true, currentWindow: true },
+            function (tabs) {
+              var currentTab = tabs[0];
+              var url = currentTab.url;
+
+              // Send the URL to the Flask backend
+              sendUrlToBackend(url);
+            }
+          );
+        });
+      });
+
+      function sendUrlToBackend(url) {
+        // Make a POST request to the Flask backend
+        fetch("http://localhost:5000/process_url", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url: url }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Response from backend:", data);
+            // Handle the response as needed
+          })
+          .catch((error) => {
+            console.error("Error sending URL to backend:", error);
+          });
+      }
+    </script>
   </head>
   <body>
     <header><h2>Dark Patter Detector</h2></header>
