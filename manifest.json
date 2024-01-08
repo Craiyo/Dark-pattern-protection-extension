@@ -3,7 +3,7 @@
   "name": "Dark Patterns buster",
   "version": "1.0",
   "description": "Analyzes the contenDark patterns of web pages",
-  "permissions": ["activeTab", "tts"],
+  "permissions": ["activeTab", "storage"],
   "browser_action": {
     "default_popup": "popup.html"
   },
